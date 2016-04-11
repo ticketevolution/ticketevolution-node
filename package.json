@@ -1,0 +1,37 @@
+{
+  "name": "ticketevolution-node",
+  "version": "1.0.0",
+  "description": "A JavaScript client for the Ticket Evolution API.",
+  "main": "TevoClient.js",
+  "scripts": {
+    "test": "node node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ticketevolution/ticketevolution-node.git"
+  },
+  "keywords": [
+    "ticket",
+    "evolution",
+    "node",
+    "javascript",
+    "api",
+    "client",
+    "tevo"
+  ],
+  "author": "Paul Pucciarelli <paul@ticketevolution.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ticketevolution/ticketevolution-node/issues"
+  },
+  "homepage": "https://github.com/ticketevolution/ticketevolution-node#readme",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "qs": "^6.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "mocha": "^2.4.5"
+  }
+}
