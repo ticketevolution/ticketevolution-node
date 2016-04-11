@@ -32,7 +32,7 @@ The client returns an [ES6 Promise](https://developer.mozilla.org/en-US/docs/Web
 ### Performing GET
 
 ```es6
-const events = tevoClient.getJSON('http://api.ticketevolution.com/v9/events').then((json) => {
+tevoClient.getJSON('http://api.ticketevolution.com/v9/events').then((json) => {
     console.log('Got events from API.', json.total_entries, json.events);
 }).catch((err) => {
     console.err(err);
@@ -47,7 +47,7 @@ const postBody = {
     internal_notes: "Example private notes.",
 };
 
-const events = tevoClient.postJSON('http://api.ticketevolution.com/v9/ticket_groups', postBody).then((json) => {
+tevoClient.postJSON('http://api.ticketevolution.com/v9/ticket_groups', postBody).then((json) => {
     console.log('Updated ticket group 12345.');
 }).catch((err) => {
     console.err(err);
