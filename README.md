@@ -40,7 +40,6 @@ const events = tevoClient.getJSON('http://api.ticketevolution.com/v9/events').th
 ```
 
 ### Performing POST
-// Perform a POST
 
 ```es6
 const postBody = {
