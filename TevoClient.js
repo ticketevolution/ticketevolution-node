@@ -50,8 +50,9 @@ class TevoClient {
     if (options.method == 'GET') {
       querystring = queryStringToObject(querystring);
       querystring = queryObjectToString(querystring);
+      querystring = `?${ querystring }`;
     }
-    let stringToSign = `${ options.method } ${ options.hostname }${ options.path }?${ querystring }`;
+    let stringToSign = `${ options.method } ${ options.hostname }${ options.path }${ querystring }`;
     const signature = crypto.createHmac(SIGNATURE_ALGORITHM, options.secret).update(stringToSign).digest(SIGNATURE_ENCODING);
     return signature;
   }
@@ -96,13 +97,14 @@ class TevoClient {
 
   postJSON(href, body) {
     if (!body) body = {};
+    const bodyJSON = JSON.stringify(body);
     const headers = this.generateHeaders({
-      href:   `${href}?${JSON.stringify(body)}`,
+      href:   `${ href }?${ bodyJSON }`,
       method: 'POST',
     });
     return fetch(href, {
       headers: headers,
-      body:    JSON.stringify(body),
+      body:    bodyJSON,
       method:  'POST',
     })
     .then((response) => {
