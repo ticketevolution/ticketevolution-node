@@ -43,21 +43,24 @@ class TevoClient {
       hostname:     'localhost',
       method:       'GET',
       path:         '/',
+      body:         null,
       querystring:  ''
     };
     options = Object.assign({}, defaultOptions, options);
     let querystring = options.querystring;
-    if (options.method == 'GET') {
-      querystring = queryStringToObject(querystring);
-      querystring = queryObjectToString(querystring);
-      querystring = `?${ querystring }`;
+    querystring = queryStringToObject(querystring);
+    querystring = queryObjectToString(querystring);
+    let stringToSign = `${ options.method } ${ options.hostname }${ options.path }?${ querystring }`;
+
+    if (options.method == 'POST') {
+      stringToSign = `${ options.method } ${ options.hostname }${ options.path }?${ options.body }`;
     }
-    let stringToSign = `${ options.method } ${ options.hostname }${ options.path }${ querystring }`;
+
     const signature = crypto.createHmac(SIGNATURE_ALGORITHM, options.secret).update(stringToSign).digest(SIGNATURE_ENCODING);
     return signature;
   }
 
-  static makeSignature(method, href, secret) {
+  static makeSignature(method, href, secret, body) {
     // http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
     var reURLInformation = new RegExp([
       '^(https?:)//',               // protocol
@@ -82,12 +85,13 @@ class TevoClient {
       method:       method,
       path:         path,
       querystring:  querystring,
+      body:         body,
       secret:       secret,
     });
   }
 
   generateHeaders(options) {
-    const sig = TevoClient.makeSignature(options.method, options.href, this.apiSecretKey);
+    const sig = TevoClient.makeSignature(options.method, options.href, this.apiSecretKey, options.body);
     return {
       'X-Token':      this.apiToken,
       'X-Signature':  sig,
@@ -99,8 +103,11 @@ class TevoClient {
     if (!body) body = {};
     const bodyJSON = JSON.stringify(body);
     const headers = this.generateHeaders({
-      href:   `${ href }?${ bodyJSON }`,
+      href:   `${ href }`,
       method: 'POST',
+      body: bodyJSON,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     });
     return fetch(href, {
       headers: headers,
@@ -119,6 +126,7 @@ class TevoClient {
     const headers = this.generateHeaders({
       href:   href,
       method: 'GET',
+      'Accept': 'application/json',
     });
     return fetch(href, {
       headers: headers,
