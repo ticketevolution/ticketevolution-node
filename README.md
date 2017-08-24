@@ -1,3 +1,6 @@
+# As of Aug 23 2017 this client is decrepitated
+
+
 # ticketevolution-node
 A JavaScript client for the Ticket Evolution API.
 
