@@ -1,4 +1,4 @@
-# As of Aug 23 2017 this client is decrepitated
+# As of Aug 23 2017 this client is deprecated
 
 
 # ticketevolution-node
